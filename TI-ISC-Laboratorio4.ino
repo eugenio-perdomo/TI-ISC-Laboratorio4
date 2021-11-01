@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 #define MAX_ITEMS 7 //fecha + 6 servos
-#define WAIT_TIME 600000
+#define WAIT_TIME 60000
 
 //----------------------------------------------------------------------------
 
