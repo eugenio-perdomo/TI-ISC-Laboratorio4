@@ -1,72 +1,109 @@
-//Eugenio Perdomo, Germán Torres,  Andrés Romano
-// Esta es la librería para utilizar las funciones de red del ESP8266
+// Esta es la libreria para utilizar las funciones de red del ESP8266
 #include <ESP8266WiFi.h> 
-#include <stdio.h>
-#include <iostream>
-#include <string>
+#include <Servo.h>
+
+#define MAX_ITEMS 7 //fecha + 6 servos
+#define WAIT_TIME 600000
+
+//----------------------------------------------------------------------------
 
 const char* ssid = "alfacharly";; // Rellena con el nombre de tu red WiFi
 const char* password = "H90zGM364Md"; // Rellena con la contraseña de la red WiFi
 
-const char* host = "192.168.1.6";//IP de host
-const char* url_test = "https://192.168.1.6/misphp/Status.info";//Ruta de Status.info
-String peticionHTTP= "GET /misphp/Status.info";//Comando de la petición
+const char* host = "192.168.1.6"; // IP del host
+const char* url_test = "https://192.168.1.6/misphp/Status.info"; //Ruta de status.info
+String peticionHTTP= "GET /misphp/Status.info"; //comando de la petición 
 
-Servo servoMotor1;
-
+String line, d_info;
+Servo servo1, servo2, servo3, servo4, servo5, servo6;
+int servoPosIni;
+//****************************************************************************
 void setup() 
 {
   Serial.begin(115200);
-  servoMotor1.attach(D4, 500, 2400);
+
+  servo1.attach(D3, 500, 2400);
+  servo2.attach(D4, 500, 2400);
+  servo3.attach(D5, 500, 2400);
+  servo4.attach(D6, 500, 2400);
+  servo5.attach(D7, 500, 2400);
+  servo6.attach(D8, 500, 2400);
   delay(10);
-  // Conectamos a la red WiFi
-  Serial.println(url_test); 
+
+  // Conectar a la red WiFi
+
   Serial.println();
   Serial.println();
   Serial.print("Conectandose a: ");
   Serial.println(ssid);
  
-  /* Configuramos el ESP8266 como cliente WiFi. Si no lo hacemos 
-     se configurará como cliente y punto de acceso al mismo tiempo */
+  /* Configura el ESP8266 como cliente WiFi. Si no se hace 
+     se configura como cliente y punto de acceso al mismo tiempo */
   WiFi.mode(WIFI_STA); // Modo cliente WiFi
   WiFi.begin(ssid, password);
 
-  // Esperamos a que estemos conectados a la red WiFi
+  // Espera a estar conectado a la red WiFi
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+    delay(500); Serial.print(".");
   }
 
   Serial.println("");
   Serial.println("WiFi conectado"); 
   Serial.println("Direccion IP: ");
-  Serial.println(WiFi.localIP()); // Mostramos la IP
-  servoMotor1.write(0);
-  Serial.println("//---------------------------------------------------------");
+  Serial.println(WiFi.localIP()); // Mostrar la direccion IP
+  servoPosIni = 90;
+  servo1.write(servoPosIni);
+  servo2.write(servoPosIni);
+  servo3.write(servoPosIni);
+  servo4.write(servoPosIni);
+  servo5.write(servoPosIni);
+  servo6.write(servoPosIni);
 }
+//****************************************************************************
+// Para obtener valores de una cadena con separadores
+// Ejemplo de uso: 
+// String p01 = getValue(data,';',0);
+// String p02 = getValue(data,';',1);
+// String p03 = getValue(data,';',2);
+//****************************************************************************
+String getValue(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = {0, 0};
+  int maxIndex = data.length()-1;
 
-void loop() {
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if( (data.charAt(i)==separator) || (i==maxIndex) ){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+//****************************************************************************
+
+void loop() 
+{
   Serial.print("conectando a ");
   Serial.println(host);
-  // Creamos el cliente
+ 
+  // Crear el cliente
   WiFiClient client;
   const int httpPort = 80; // Puerto HTTP
-  
-  if (!client.connect(host, httpPort)) {
-    // ¿hay algún error al conectar?
+  if (!client.connect(host, httpPort)) {  // Si hay error al conectar
     Serial.println("Ha fallado la conexión, todo mal che !");
     return;
   }
-  
+ 
+  // Crear la URL para la petición 
   Serial.print("URL de la petición: ");
-  Serial.print(host);
-  Serial.print(":");
-  Serial.print(httpPort);
+  Serial.print(host); Serial.print(":"); Serial.print(httpPort);
   Serial.println(url_test);
-  
-  Serial.println("//---------------------------------------------------------");   
-  // Enviamos la petición 
-  client.println(peticionHTTP);        
+ 
+  // Enviar la peticion
+  client.println(peticionHTTP);
   unsigned long timeout = millis();
   while (client.available() == 0) {
     if (millis() - timeout > 5000) {
@@ -75,20 +112,43 @@ void loop() {
       return;
     }
   }
-  Serial.println("Mostrando el contenido de Status.info: ");
- 
-  // Leemos la respuesta y la enviamos al monitor serie
+
+  // Consutar la memoria libre --- Quedan un poco mas de 40 kB
+  Serial.printf("\nMemoria libre en el ESP8266: %d Bytes\n\n",ESP.getFreeHeap());
+  
+  Serial.println("Mostrando el contenido de Status.info: "); 
+  // Leer la respuesta y enviar al monitor serie
   while(client.available()){
     line = client.readStringUntil('\r');
-    Serial.print(line);
+    Serial.println(line);    
   }
-  Serial.println();
-  Serial.println("//---------------------------------------------------------");
-  Serial.print("Este será el estado del led 1: ");
-  Led1=line[0];
-  Serial.println(Led1);
-
-  Serial.println("Próxima revisión en 5s.");
-  Serial.println("//---------------------------------------------------------");
-  delay(5000);
+  Serial.println("------");
+  
+  // Procesar la info recibida
+  for (int i=0; i < MAX_ITEMS; i++){
+    d_info = getValue(line,';',i);
+    Serial.print("d_info("); Serial.print(i); Serial.print(") = "); Serial.println(d_info);
+    
+    if (i==1) {
+      servo1.write(d_info.toInt());
+    }
+    if (i==2) {
+      servo2.write(d_info.toInt());
+    }
+    if (i==3) {
+      servo3.write(d_info.toInt());
+    }
+    if (i==4) {
+      servo4.write(d_info.toInt());
+    }
+    if (i==5) {
+      servo5.write(d_info.toInt());
+    }
+    if (i==6) {
+      servo6.write(d_info.toInt());
+    }
+  }
+  delay(WAIT_TIME);
+  
 }
+//****************************************************************************
