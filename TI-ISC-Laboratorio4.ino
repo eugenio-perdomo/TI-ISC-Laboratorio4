@@ -20,7 +20,7 @@ int servo1PosActual, servo2PosActual, servo3PosActual, servo4PosActual, servo5Po
 int servo1PosPrevia, servo2PosPrevia, servo3PosPrevia, servo4PosPrevia, servo5PosPrevia, servo6PosPrevia;
 
 void setup_init() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   /* Configura el ESP8266 como cliente WiFi. Si no se hace
     se configura como cliente y punto de acceso al mismo tiempo */
   WiFi.mode(WIFI_STA); // Modo cliente WiFi
@@ -72,13 +72,21 @@ void ejecutarServos() {
   // dataRecibida se la podemos pasar como parametro a esta funcion
   // Puede venir: servo1180, en donde servo -1- va a ser el cual mover
   // y 180 el angulo.
-  String numeroDeServoAMover = dataRecibida.substring(5, 1);
+  String numeroDeServoAMover = "1";
+
+  //[2021 10 26 00:42:20];123;23;122;123;12;11;
+  // TODO: La fecha por Serial.
   String angulo = dataRecibida.substring(6, dataRecibida.length());
+
+
   numeroDeServoAMover.toInt();
+  
   angulo.toInt();
+  
   switch (numeroDeServoAMover) {
     case 1:
       recibePosiciones(angulo, servo1, servo1PosActual, servo1PosPrevia);
+      delay(1000);
       break;
     case 2:
       recibePosiciones(angulo, servo2, servo2PosActual, servo2PosPrevia);
