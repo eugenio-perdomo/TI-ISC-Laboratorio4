@@ -1,4 +1,4 @@
-// Esta es la libreria para utilizar las funciones de red del ESP8266
+//Eugenio Perdomo, Germán Torres,  Andrés Romano
 #include <ESP8266WiFi.h> 
 #include <Servo.h>
 
@@ -127,24 +127,32 @@ void loop()
   // Procesar la info recibida
   for (int i=0; i < MAX_ITEMS; i++){
     d_info = getValue(line,';',i);
-    Serial.print("d_info("); Serial.print(i); Serial.print(") = "); Serial.println(d_info);
     
+    if (i==0) {
+      Serial.print("Fecha y hora: "); Serial.println(d_info);
+    }    
     if (i==1) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo1.write(d_info.toInt());
     }
     if (i==2) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo2.write(d_info.toInt());
     }
     if (i==3) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo3.write(d_info.toInt());
     }
     if (i==4) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo4.write(d_info.toInt());
     }
     if (i==5) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo5.write(d_info.toInt());
     }
     if (i==6) {
+      Serial.print("Servo"); Serial.print(i); Serial.print(" = "); Serial.println(d_info);
       servo6.write(d_info.toInt());
     }
   }
