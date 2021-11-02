@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h> 
 #include <Servo.h>
 
-#define MAX_ITEMS 7 //fecha + 6 servos
+#define MAX_ITEMS 3 //fecha + 2 servos
 #define WAIT_TIME 60000
 
 //----------------------------------------------------------------------------
