@@ -51,7 +51,8 @@
 </html>
 
 <?php
-if($fp = fopen("status.info", "r"))
+
+if($fp = fopen("historial.info", "r"))
 {
   echo "<br>";
   while (!feof($fp)){
