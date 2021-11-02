@@ -7,7 +7,7 @@
 
 //----------------------------------------------------------------------------
 
-const char* ssid = "alfacharly";; // Rellena con el nombre de tu red WiFi
+const char* ssid = "alfacharly"; // Rellena con el nombre de tu red WiFi
 const char* password = "H90zGM364Md"; // Rellena con la contraseña de la red WiFi
 
 const char* host = "192.168.1.6"; // IP del host
