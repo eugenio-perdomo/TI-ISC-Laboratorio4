@@ -6,20 +6,24 @@ if(isset($_POST['submit'])){//Validacion de envio de formulario
 
   $info = "[" . date("Y m d H:i:s") . "]". ";" . $ang1 . ";" . $ang2 . ";" . "\n";  
   $nombre_archivo = "status.info";
-  if($archivo = fopen($nombre_archivo, "a"))
+  if($archivo = fopen($nombre_archivo, "w"))
   {
-    if(fwrite($archivo, $info)){
-      //echo "Datos transmitidos/recibidos: <br/>";
-    }
-    else{
-      //echo "Ha habido un problema al transferir datos <br/>";
-    }
-  
+    fwrite($archivo, $info);
     echo $info;
 
     fclose($archivo);
   }
 
+  $nombre_archivo = "historial.info";
+  if($archivo = fopen($nombre_archivo, "a"))
+  {
+    fwrite($archivo, $info);
+    echo $info;
+
+    fclose($archivo);
+  
+
+}
 }
 
 ?>
@@ -101,7 +105,7 @@ input{
 </body>
 </html>
 <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-<form action="" method="post">
+<form action="index.php" method="post">
   <div class="box" align="center">
   <style>
   .slidecontainer {
@@ -147,7 +151,7 @@ input{
   <div class="slidecontainer" style="width:500px;">
   <div style = "background-color: #cfc ; padding: 10px; border: 1px solid green;">
     <p>ServoMotor 1: <span class="sliderValue"></span></p>
-    <input type="range" name = "ang1" min="1" max="180"  class="slider" id="myRange" oninput="this.nextElementSibling.value = this.value">
+    <input type="range" name = "ang1" min="0" max="180"  class="slider" id="myRange" oninput="this.nextElementSibling.value = this.value">
     <output>---</output>
   </div>
 <body>
@@ -156,7 +160,7 @@ input{
   <div class="slidecontainer" style="width:500px;">
   <div style = "background-color: #cfc ; padding: 10px; border: 1px solid green;">
     <p>ServoMotor 2: <span class="sliderValue"></span></p>
-    <input type="range" name = "ang2" min="1" max="180"  class="slider" id="myRange" oninput="this.nextElementSibling.value = this.value">
+    <input type="range" name = "ang2" min="0" max="180"  class="slider" id="myRange" oninput="this.nextElementSibling.value = this.value">
     <output>---</output>
   </div>
 </body>
