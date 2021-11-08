@@ -7,66 +7,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" type="text/css" href="estilos.css">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <title>ServoMotor</title>
 </head>
 
 <body>
-  
-  <div style= "text-align: center; font: bold 400px; background: #333; height: 100px; line-height: 100px; color: rgb(255, 255, 255); text-transform: uppercase; font-size: 300%;">
-    Control ServoMotor
-  </div>
-
-  <h1></h1>
-
+  <header>
+    <h1>
+      Control ServoMotor
+    </h1>
+  </header>
+  </br>
   <form action="index.php" method="post">
-     
-  <div style="position:absolute; left: 300px; background: #333; padding: 10px; color: rgb(255, 255, 255); text-align: center;">
-      
-          <p>ServoMotor 1: <span class="sliderValue"></span></p>
-          <input type="range" name="ang1" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-          <output>---</output>
 
-          <p>ServoMotor 2: <span class="sliderValue"></span></p>
-          <input type="range" name="ang2" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-          <output>---</output>
-       
-          <p>ServoMotor 3: <span class="sliderValue"></span></p>
-          <input type="range" name="ang3" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-          <output>---</output>
-</div>
+    <div class="container">
+      <div class="primerSetServomotor">
+        <p>ServoMotor 1: </p>
+        <input type="range" name="ang1" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
 
-<div style="position:absolute; right: 300px; background: #333; padding: 10px; color: rgb(255, 255, 255); text-align: center;">
-  
-          <p>ServoMotor 4: <span class="sliderValue"></span></p>
-          <input type="range" name="ang4" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-            <output >---</output>
-                
-          <p>ServoMotor 5: <span class="sliderValue"></span></p>
-          <input type="range" name="ang5" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-          <output>---</output>
-  
-          <p>ServoMotor 6: <span class="sliderValue"></span></p>
-          <input type="range" name="ang6" min="1" max="180" class="slider" id="myRange"
-            oninput="this.nextElementSibling.value = this.value">
-          <output>---</output>
-                
-</div>
-<div style="position:absolute; right: 650px; top: 430px;">
-        <input type="submit" name="submit" value="Enviar" />
+        <p>ServoMotor 2: </p>
+        <input type="range" name="ang2" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
 
-      </div>
-      
-      <div style="position:absolute; right: 625px; top: 500px; background: #333;  color: rgb(255, 255, 255); text-align: center;">
-              <A href="historial.php " plain> ---HISTORIAL--- </A> 
+        <p>ServoMotor 3: </p>
+        <input type="range" name="ang3" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
       </div>
 
+      <div class="segundoSetServomotor">
+        <p>ServoMotor 4: </p>
+        <input type="range" name="ang4" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
+
+        <p>ServoMotor 5: </p>
+        <input type="range" name="ang5" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
+
+        <p>ServoMotor 6: </p>
+        <input type="range" name="ang6" min="1" max="180" class="slider"
+          oninput="this.nextElementSibling.value = this.value">
+        <output>---</output>
+      </div>
+
+      <div class="container">
+        <div id="submitButton">
+          <input type="submit" name="submit" value="Enviar" />
+        </div>
+
+        <div id="haciaHistorial">
+          <a href="historial.php " plain> ---HISTORIAL--- </a>
+        </div>
+      </div>
+
+    </div>
   </form>
 </body>
 
